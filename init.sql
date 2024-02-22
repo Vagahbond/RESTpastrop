@@ -12,6 +12,22 @@ CREATE TABLE users (
     second_name text
 );
 
+INSERT INTO users(
+    role, 
+    email, 
+    password, 
+    first_name, 
+    second_name
+) VALUES(
+    'admin', 
+    'test@user.com', 
+    'password', 
+    'Georges', 
+    'Abitbol'
+);
+
+
+
 CREATE TABLE locations (
     id serial PRIMARY KEY,
     created_at timestamp DEFAULT NOW(),
@@ -36,6 +52,5 @@ CREATE TABLE reservations (
     date_end timestamp
 
 );
-
 
 

@@ -1,16 +1,43 @@
-import Location from "./location";
+import {
+  Location,
+  PartialLocation,
+  createLocationSchema,
+  updateLocationSchema,
+} from "./model";
 import Repository from "./repository";
 
-async function createOne(location: Location) {
-  return await Repository.createOne(location);
+async function createOne(location: Location): Promise<Location> {
+  const { value, error } = createLocationSchema.validate(location);
+
+  if (error) {
+    throw error;
+  }
+
+  return await Repository.createOne(value);
 }
 
-function getOne(id: Number) {}
+async function getOne(id: Number): Promise<Location | null> {
+  return await Repository.getOne(id);
+}
 
-function getAll() {}
+async function getAll(): Promise<Array<Location>> {
+  return await Repository.getAll();
+}
 
-function patchOne(id: Number, location: Location) {}
+async function updateOne(
+  id: Number,
+  location: PartialLocation,
+): Promise<Location | null> {
+  const { value, error } = updateLocationSchema.validate(location);
+  if (error) {
+    throw error;
+  }
 
-function deleteOne(id: Number) {}
+  return await Repository.updateOne(id, value);
+}
 
-export default { createOne, getOne, getAll, patchOne, deleteOne };
+async function deleteOne(id: Number): Promise<Number | null> {
+  return await Repository.deleteOne(id);
+}
+
+export default { createOne, getOne, getAll, updateOne, deleteOne };
