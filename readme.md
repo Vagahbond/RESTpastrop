@@ -35,6 +35,25 @@ Tasks :
   - [ ] Reservations
   - [ ] Locations
 
+## Run
+
+### Required
+
+- Docker installation with docker compose
+
+### Commands for developping
+
+** Run for the first time **
+`docker compose up`
+
+** Stop the app **
+`docker compose down`
+
+** Reset the database (Will force execution of `init.sql`) **
+`docker compose down --volumes`
+
+_dev setup is not viable for production_
+
 ## Architecture
 
 Architecture was made according to the course with controller, repository and service layers and an added model for passing data between those.
