@@ -2,10 +2,15 @@ import { User, PartialUser } from "./model";
 
 import db from "../common/db_handler";
 
-async function createOne(user: User) {
+async function createOne(location: Location) {
+  const attributesString = Object.keys(location).join(",");
+  const valuesString = Object.keys(location)
+    .map((k) => `$<${k}>`)
+    .join(",");
+
   return await db.one(
-    "INSERT INTO users(owner, area, address, capacity, price, available) VALUES(${owner}, ${area}, ${address}, ${capacity}, ${price}, ${available}) RETURNING *;",
-    user,
+    `INSERT INTO users(${attributesString}) VALUES(${valuesString}) RETURNING *;`,
+    location,
   );
 }
 

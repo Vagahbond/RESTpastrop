@@ -3,8 +3,13 @@ import { Location, PartialLocation } from "./model";
 import db from "../common/db_handler";
 
 async function createOne(location: Location) {
+  const attributesString = Object.keys(location).join(",");
+  const valuesString = Object.keys(location)
+    .map((k) => `$<${k}>`)
+    .join(",");
+
   return await db.one(
-    "INSERT INTO locations(owner, area, address, capacity, price, available) VALUES(${owner}, ${area}, ${address}, ${capacity}, ${price}, ${available}) RETURNING *;",
+    `INSERT INTO locations(${attributesString}) VALUES(${valuesString}) RETURNING *;`,
     location,
   );
 }

@@ -2,10 +2,15 @@ import { Reservation, PartialReservation } from "./model";
 
 import db from "../common/db_handler";
 
-async function createOne(reservation: Reservation) {
+async function createOne(location: Location) {
+  const attributesString = Object.keys(location).join(",");
+  const valuesString = Object.keys(location)
+    .map((k) => `$<${k}>`)
+    .join(",");
+
   return await db.one(
-    "INSERT INTO reservations(owner, area, address, capacity, price, available) VALUES(${owner}, ${area}, ${address}, ${capacity}, ${price}, ${available}) RETURNING *;",
-    reservation,
+    `INSERT INTO reservations(${attributesString}) VALUES(${valuesString}) RETURNING *;`,
+    location,
   );
 }
 
