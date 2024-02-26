@@ -2,6 +2,8 @@ import express, { Request, Response } from "express";
 import bodyParser from "body-parser";
 import errorHandlingMiddleware from "./common/middlewares/error_middleware";
 import locationsController from "./locations/controller";
+import usersController from "./users/controller";
+import reservationsController from "./reservations/controller";
 import idParamGuard from "./common/middlewares/id_param_guard_middleware";
 import swaggerUI from "swagger-ui-express";
 import { specs } from "./common/swagger_handler";
@@ -57,6 +59,8 @@ app.get("/", (_req: Request, res: Response) => {
 });
 
 app.use("/locations", locationsController);
+app.use("/users", usersController);
+app.use("/reservations", reservationsController);
 
 app.use(errorHandlingMiddleware);
 
