@@ -5,12 +5,10 @@
  *     Reservation:
  *       type: object
  *       required:
- *         - owner
- *         - area
- *         - address
- *         - capacity
- *         - price
- *         - available
+ *         - location
+ *         - customer
+ *         - date_start
+ *         - date_end
  *       properties:
  *         id:
  *           type: integer
@@ -18,73 +16,65 @@
  *         created_at:
  *           type: date
  *           description: date of creation of the reservation
- *         owner:
+ *         location:
  *           type: integer
- *           description: ID of the owner of the place
- *         area:
+ *           description: ID of the rented location
+ *         customer:
  *           type: integer
- *           description: area of the place in square meters
- *         address:
- *           type: string
- *           description: address where it's located
- *         capacity:
- *           type: integer
- *           description: nb of people that can live there
+ *           description: ID of the customer that took this reservation
+ *         date_start:
+ *           type: date
+ *           description: Date at which the reservation starts
+ *         date_end:
+ *           type: date
+ *           description: Date at which the reservation ends
  *         price:
  *           type: float
- *           description: price for a night in the reservation
- *         available:
- *           type: boolean
- *           description: whether the place is available to rent or not
+ *           description: price for a night in the reservation (defaults to location's price)
  *
  *       example:
  *         id: 1
  *         created_at: 2024-02-24T01:34:12.891Z
- *         owner: 1
- *         area: 16
- *         address: 15 rue des coquelicots
- *         capacity: 2
+ *         location: 1
+ *         customer: 1
+ *         date_start: 2024-02-24T01:34:12.891Z
+ *         date_end: 2024-05-24T01:34:12.891Z
  *         price: $120.50
- *         available: true
  *
  */
 
 import Joi from "joi";
 
 export const createReservationSchema = Joi.object({
-  owner: Joi.number().integer().positive().required(),
-  area: Joi.number().integer().positive().required(),
-  address: Joi.string().required(),
-  capacity: Joi.number().integer().positive().required(),
-  price: Joi.number().positive().required(),
-  available: Joi.bool().required(),
+  location: Joi.number().integer().positive().required(),
+  customer: Joi.number().integer().positive().required(),
+  date_start: Joi.date().greater("now").required(),
+  date_end: Joi.date().greater("now").required(),
+  price: Joi.number().positive().optional(),
 });
 
 export const updateReservationSchema = Joi.object({
-  owner: Joi.number().integer().positive().optional(),
-  area: Joi.number().integer().positive().optional(),
-  address: Joi.string().optional(),
-  capacity: Joi.number().integer().positive().optional(),
+  location: Joi.number().integer().positive().optional(),
+  customer: Joi.number().integer().positive().optional(),
+  date_start: Joi.number().integer().positive().optional(),
+  date_end: Joi.string().optional(),
   price: Joi.number().positive().optional(),
-  available: Joi.bool().optional(),
 }).min(1);
 
 export interface Reservation {
   id?: Number;
   created_at?: Date;
-  owner: Number;
-  area: Number;
-  address: string;
-  capacity: Number;
+  location: Number;
+  customer: Number;
+  date_start: Date;
+  date_end: Date;
   price: Number;
-  available: boolean;
 }
 
 export interface PartialReservation {
-  owner?: Number;
-  area?: Number;
-  address?: string;
-  capacity?: Number;
+  location?: Number;
+  customer?: Number;
+  date_start?: Date;
+  date_end?: Date;
   price?: Number;
-  available?: boolean;
 }
