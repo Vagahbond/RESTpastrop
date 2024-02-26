@@ -12,6 +12,8 @@ export default function errorHandlingMiddleware(
     next();
   }
 
+  console.error(err);
+
   if (err instanceof HTTPError) {
     res.status(err.status).json({
       message: err.message,
