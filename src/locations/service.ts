@@ -12,6 +12,7 @@ async function createOne(location: Location): Promise<Location> {
   if (error) {
     throw error;
   }
+  // TODO: when user no exist
 
   return await Repository.createOne(value);
 }
@@ -33,6 +34,7 @@ async function updateOne(
     throw error;
   }
 
+  // TODO: when user no exist
   return await Repository.updateOne(id, value);
 }
 
