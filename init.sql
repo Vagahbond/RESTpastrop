@@ -50,6 +50,7 @@ CREATE TABLE reservations (
 
     date_start timestamp, 
     date_end timestamp
+    price money;
 
 );
 
