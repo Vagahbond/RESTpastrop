@@ -6,11 +6,28 @@ import {
 } from "./model";
 import Repository from "./repository";
 
+import locationService from "../locations/service";
+import { InvalidArgumentError } from "../common/service_errors";
+
 async function createOne(reservation: Reservation): Promise<Reservation> {
   const { value, error } = createReservationSchema.validate(reservation);
 
   if (error) {
     throw error;
+  }
+
+  const location = await locationService.getOne(reservation.location);
+
+  if (!location) {
+    throw new InvalidArgumentError(
+      "The location you're looking to reserve does not exist.",
+    );
+  }
+
+  if (!location.available) {
+    throw new InvalidArgumentError(
+      "The location you're looking to reserve is not available for now.",
+    );
   }
 
   return await Repository.createOne(value);
