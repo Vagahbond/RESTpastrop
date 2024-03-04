@@ -47,17 +47,14 @@ import Joi from "joi";
 
 export const createReservationSchema = Joi.object({
   location: Joi.number().integer().positive().required(),
-  customer: Joi.number().integer().positive().required(),
   date_start: Joi.date().greater("now").required(),
   date_end: Joi.date().greater(Joi.ref("date_start")).required(),
   price: Joi.number().positive().optional(),
 });
 
 export const updateReservationSchema = Joi.object({
-  location: Joi.number().integer().positive().required(),
-  customer: Joi.number().integer().positive().required(),
-  date_start: Joi.date().greater("now").required(),
-  date_end: Joi.date().greater(Joi.ref("date_start")).required(),
+  date_start: Joi.date().greater("now").optional(),
+  date_end: Joi.date().greater(Joi.ref("date_start")).optional(),
   price: Joi.number().positive().optional(),
 }).min(1);
 
