@@ -9,7 +9,7 @@ CREATE TABLE users (
     email citext UNIQUE,
     password text,
     first_name text,
-    second_name text
+    last_name text
 );
 
 INSERT INTO users(
