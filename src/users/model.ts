@@ -5,12 +5,11 @@
  *     User:
  *       type: object
  *       required:
- *         - owner
- *         - area
- *         - address
- *         - capacity
- *         - price
- *         - available
+ *         - role
+ *         - email
+ *         - password
+ *         - first_name
+ *         - last_name
  *       properties:
  *         id:
  *           type: integer
@@ -18,73 +17,65 @@
  *         created_at:
  *           type: date
  *           description: date of creation of the user
- *         owner:
- *           type: integer
- *           description: ID of the owner of the place
- *         area:
- *           type: integer
- *           description: area of the place in square meters
- *         address:
+ *         role:
+ *           type: enum("admin", "customer", "staff", "owner")
+ *           description: Role provided to the user, defining their rights
+ *         email:
  *           type: string
- *           description: address where it's located
- *         capacity:
- *           type: integer
- *           description: nb of people that can live there
- *         price:
- *           type: float
- *           description: price for a night in the user
- *         available:
- *           type: boolean
- *           description: whether the place is available to rent or not
+ *           description: EMail for the user
+ *         password:
+ *           type: string
+ *           description: user's password
+ *         first_name:
+ *           type: string
+ *           description: first name of the user
+ *         second_name:
+ *           type: string
+ *           description: second name for the user
  *
  *       example:
  *         id: 1
  *         created_at: 2024-02-24T01:34:12.891Z
- *         owner: 1
- *         area: 16
- *         address: 15 rue des coquelicots
- *         capacity: 2
- *         price: $120.50
- *         available: true
+ *         role: "admin"
+ *         email: "admin@mail.me"
+ *         password: "7O563V45N8WPER498RNYVQOGWOFHOCU8W3"
+ *         first_name: "George"
+ *         last_name: "Abitbol"
  *
  */
 
 import Joi from "joi";
 
 export const createUserSchema = Joi.object({
-  owner: Joi.number().integer().positive().required(),
-  area: Joi.number().integer().positive().required(),
-  address: Joi.string().required(),
-  capacity: Joi.number().integer().positive().required(),
-  price: Joi.number().positive().required(),
-  available: Joi.bool().required(),
+  role: Joi.string().required(),
+  email: Joi.string().email().required(),
+  password: Joi.string().required(),
+  first_name: Joi.string().required(),
+  last_name: Joi.string().required(),
 });
 
 export const updateUserSchema = Joi.object({
-  owner: Joi.number().integer().positive().optional(),
-  area: Joi.number().integer().positive().optional(),
-  address: Joi.string().optional(),
-  capacity: Joi.number().integer().positive().optional(),
-  price: Joi.number().positive().optional(),
-  available: Joi.bool().optional(),
+  role: Joi.string().required(),
+  email: Joi.string().email().required(),
+  password: Joi.string().required(),
+  first_name: Joi.string().required(),
+  last_name: Joi.string().required(),
 }).min(1);
 
 export interface User {
   id?: Number;
   created_at?: Date;
-  owner: Number;
-  area: Number;
-  address: string;
-  capacity: Number;
-  price: Number;
-  available: boolean;
+  role: "admin" | "customer" | "owner" | "staff";
+  email: string;
+  password: string;
+  first_name: string;
+  last_name: string;
 }
 
 export interface PartialUser {
-  owner?: Number;
-  area?: Number;
-  address?: string;
-  capacity?: Number;
-  price?: Number;
-  available?: boolean;
+  role: string;
+  email: string;
+  password: string;
+  first_name: string;
+  last_name: string;
 }
