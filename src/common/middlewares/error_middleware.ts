@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { HTTPError } from "../http_errors";
 import { ValidationError } from "joi";
+import { InvalidArgumentError } from "../service_errors";
 
 export default function errorHandlingMiddleware(
   err: Error,
@@ -19,6 +20,10 @@ export default function errorHandlingMiddleware(
       message: err.message,
     });
   } else if (err instanceof ValidationError) {
+    res.status(400).json({
+      message: err.message,
+    });
+  } else if (err instanceof InvalidArgumentError) {
     res.status(400).json({
       message: err.message,
     });
