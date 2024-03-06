@@ -1,15 +1,15 @@
 import { User } from "../users/model";
 import {
-  loginObject,
+  LoginObject,
   loginSchema,
-  registerObject,
+  RegisterObject,
   registerSchema,
 } from "./model";
 import userRepository from "../users/repository";
 import { AuthError, InvalidArgumentError } from "../common/service_errors";
 import generateJWT from "../common/jwt_handler";
 
-async function login(loginForm: loginObject) {
+async function login(loginForm: LoginObject) {
   const { value, error } = loginSchema.validate(loginForm);
 
   if (error) {
@@ -27,7 +27,7 @@ async function login(loginForm: loginObject) {
   return generateJWT(user.id, user.role);
 }
 
-async function register(user: registerObject): Promise<User> {
+async function register(user: RegisterObject): Promise<User> {
   const { value, error } = registerSchema.validate(user);
 
   if (error) {

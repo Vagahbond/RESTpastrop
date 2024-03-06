@@ -1,11 +1,17 @@
 import Joi from "joi";
+import { UserRole } from "../users/model";
 
-export interface loginObject {
+export interface LoginObject {
   email: string;
   pasword: string;
 }
 
-export interface registerObject {
+export interface Issuer {
+  role: UserRole;
+  id: Number;
+}
+
+export interface RegisterObject {
   email: string;
   password: string;
   first_name: string;
