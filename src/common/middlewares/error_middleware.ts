@@ -13,8 +13,6 @@ export default function errorHandlingMiddleware(
     next();
   }
 
-  console.error(err);
-
   if (err instanceof HTTPError) {
     res.status(err.status).json({
       message: err.message,
@@ -31,5 +29,7 @@ export default function errorHandlingMiddleware(
     res.status(500).json({
       message: "Something went wrong. Please try again later.",
     });
+
+    console.error(err);
   }
 }
