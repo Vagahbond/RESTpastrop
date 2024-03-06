@@ -1,4 +1,11 @@
 /**
+ * @swagger
+ * tags:
+ *   name: Users
+ *   description: User management
+ */
+
+/**
  * @openapi
  * components:
  *   schemas:
@@ -42,8 +49,39 @@
  *         first_name: "George"
  *         last_name: "Abitbol"
  *
+ *     CreateUser:
+ *       type: object
+ *       required:
+ *         - role
+ *         - email
+ *         - password
+ *         - first_name
+ *         - last_name
+ *       properties:
+ *         role:
+ *           type: enum("admin", "customer", "staff", "owner")
+ *           description: Role provided to the user, defining their rights
+ *         email:
+ *           type: string
+ *           description: EMail for the user
+ *         password:
+ *           type: string
+ *           description: user's password
+ *         first_name:
+ *           type: string
+ *           description: first name of the user
+ *         second_name:
+ *           type: string
+ *           description: second name for the user
+ *
+ *       example:
+ *         role: "admin"
+ *         email: "admin@mail.me"
+ *         password: "7O563V45N8WPER498RNYVQOGWOFHOCU8W3"
+ *         first_name: "George"
+ *         last_name: "Abitbol"
+ *
  */
-
 import Joi from "joi";
 
 export type UserRole = "admin" | "customer" | "owner" | "staff";
