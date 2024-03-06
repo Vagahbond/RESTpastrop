@@ -9,3 +9,9 @@ export class AuthError extends Error {
     super(message ?? "An error prevented you from authenticating.");
   }
 }
+
+export class UnauthorizedError extends Error {
+  constructor(message?: string) {
+    super(message ?? "You are not allowed to perform this action.");
+  }
+}

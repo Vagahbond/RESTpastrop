@@ -2,7 +2,8 @@ import { Request, Response, NextFunction } from "express";
 import { HTTPError } from "../http_errors";
 import { ValidationError } from "joi";
 import { InvalidArgumentError, AuthError } from "../service_errors";
-import { UnauthorizedError } from "express-jwt";
+import { UnauthorizedError as JWTUnauthorizedError } from "express-jwt";
+import { UnauthorizedError } from "../service_errors";
 
 export default function errorHandlingMiddleware(
   err: Error,
@@ -34,7 +35,10 @@ export default function errorHandlingMiddleware(
     res.status(401).json({
       message: err.message,
     });
-  } else if (err instanceof UnauthorizedError) {
+  } else if (
+    err instanceof UnauthorizedError ||
+    err instanceof JWTUnauthorizedError
+  ) {
     res.status(403).json({
       message: err.message,
     });

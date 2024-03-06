@@ -13,15 +13,23 @@ async function createOne(user: User): Promise<User> {
     throw new InvalidArgumentError("This email is already taken.");
   }
 
-  return await Repository.createOne(value);
+  const newUser = await Repository.createOne(value);
+
+  return { ...newUser, password: "[redacted]" };
 }
 
 async function getOne(id: Number): Promise<User | null> {
-  return await Repository.getOne(id);
+  const user = await Repository.getOne(id);
+  if (user) {
+    return { ...user, password: "[redacted]" };
+  } else return user;
 }
 
 async function getAll(): Promise<Array<User>> {
-  return await Repository.getAll();
+  const users = await Repository.getAll();
+  return users.map((user) => {
+    return { ...user, password: "[redacted]" };
+  });
 }
 
 async function updateOne(id: Number, user: PartialUser): Promise<User | null> {
