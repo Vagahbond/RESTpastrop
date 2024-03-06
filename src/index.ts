@@ -8,6 +8,7 @@ import authController from "./auth/controller";
 import idParamGuard from "./common/middlewares/id_param_guard_middleware";
 import swaggerUI from "swagger-ui-express";
 import { specs } from "./common/swagger_handler";
+import authMiddleware from "./common/middlewares/auth_middlware";
 
 const app = express();
 const port = 80;
@@ -17,6 +18,9 @@ app.get("/doc", swaggerUI.setup(specs, { explorer: true }));
 
 // Parse json body into object
 app.use(bodyParser.json());
+
+// parse token
+app.use(authMiddleware);
 
 // Refuse non-numeric ids in params
 app.use("/*/[1-9]+$", idParamGuard);
