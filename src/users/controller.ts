@@ -1,8 +1,10 @@
-import { Router, Response, Request } from "express";
+import { Router, Response } from "express";
 import Service from "./service";
 import { User, PartialUser } from "./model";
 import { NotFoundError } from "../common/http_errors";
 import authorize from "../common/middlewares/authorize_middleware";
+import { Request } from "express-jwt";
+
 const controller = Router();
 
 /**
@@ -66,7 +68,10 @@ controller.get(
   "/:id",
   authorize(["staff", "customer", "owner"]),
   (req: Request, res: Response, next: Function) => {
-    Service.getOne(Number(req.params.id))
+    Service.getOne(Number(req.params.id), {
+      id: req.auth?.uid,
+      role: req.auth?.urole,
+    })
       .then((data: User | null) => {
         if (data === null) {
           throw new NotFoundError(
@@ -154,7 +159,10 @@ controller.delete(
   "/:id",
   authorize(["owner", "customer", "staff"]),
   (req: Request, res: Response, next: Function) => {
-    Service.deleteOne(Number(req.params.id))
+    Service.deleteOne(Number(req.params.id), {
+      id: req.auth?.uid,
+      role: req.auth?.urole,
+    })
       .then((id) => {
         if (id === null) {
           throw new NotFoundError(
@@ -208,7 +216,10 @@ controller.patch(
   "/:id",
   authorize(["owner", "customer", "staff"]),
   (req: Request, res: Response, next: Function) => {
-    Service.updateOne(Number(req.params.id), req.body as PartialUser)
+    Service.updateOne(Number(req.params.id), req.body as PartialUser, {
+      id: req.auth?.uid,
+      role: req.auth?.urole,
+    })
       .then((data: User | null) => {
         if (data === null) {
           throw new NotFoundError(
