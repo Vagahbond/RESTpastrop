@@ -58,11 +58,16 @@ export const createUserSchema = Joi.object({
 
 export const updateUserSchema = Joi.object({
   role: Joi.string().valid(["admin", "customer", "owner", "staff"]).optional(),
+  email: Joi.string().email().optional(),
+  password: Joi.string().optional(),
+  first_name: Joi.string().optional(),
+  last_name: Joi.string().optional(),
+}).min(1);
+
+export const loginSchema = Joi.object({
   email: Joi.string().email().required(),
   password: Joi.string().required(),
-  first_name: Joi.string().required(),
-  last_name: Joi.string().required(),
-}).min(1);
+});
 
 export interface User {
   id?: Number;
