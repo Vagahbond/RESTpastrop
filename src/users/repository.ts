@@ -18,6 +18,16 @@ async function getOne(id: Number): Promise<User | null> {
   return await db.oneOrNone("SELECT * FROM users WHERE id=${id}", { id });
 }
 
+async function getOneBy(attribute: string, value: string) {
+  return await db.oneOrNone(
+    `SELECT * FROM users WHERE ${attribute} = $<value>`,
+    {
+      attribute,
+      value,
+    },
+  );
+}
+
 async function getAll(): Promise<Array<User>> {
   const res = await db.manyOrNone("SELECT * FROM users");
 
@@ -47,4 +57,4 @@ async function deleteOne(id: Number): Promise<Number | null> {
   });
 }
 
-export default { createOne, getOne, getAll, updateOne, deleteOne };
+export default { createOne, getOne, getAll, updateOne, deleteOne, getOneBy };
