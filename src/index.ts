@@ -23,7 +23,7 @@ app.use(bodyParser.json());
 app.use(authMiddleware);
 
 // Refuse non-numeric ids in params
-app.use("/*/[1-9]+$", idParamGuard);
+// app.use("/*/[1-9]+$", idParamGuard);
 
 /**
  * @openapi
