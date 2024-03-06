@@ -59,7 +59,7 @@ app.use(authMiddleware);
 app.get("/", (_req: Request, res: Response) => {
   res.json({
     message: "Welcome to RESTpastrop API!",
-    routes: ["/users", "/auth", "/locations", "/reservations"],
+    routes: ["/users", "/auth", "/locations", "/reservations", "/doc"],
   });
 });
 
