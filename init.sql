@@ -17,7 +17,7 @@ INSERT INTO users(
     email, 
     password, 
     first_name, 
-    second_name
+    last_name
 ) VALUES(
     'admin', 
     'test@user.com', 
@@ -49,8 +49,8 @@ CREATE TABLE reservations (
 
 
     date_start timestamp, 
-    date_end timestamp
-    price money;
+    date_end timestamp,
+    price money
 
 );
 
