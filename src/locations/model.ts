@@ -70,7 +70,7 @@ export const updateLocationSchema = Joi.object({
 }).min(1);
 
 export interface Location {
-  id?: Number;
+  id: Number;
   created_at?: Date;
   owner: Number;
   area: Number;

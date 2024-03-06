@@ -67,7 +67,7 @@ export const updateUserSchema = Joi.object({
 }).min(1);
 
 export interface User {
-  id?: Number;
+  id: Number;
   created_at?: Date;
   role: UserRole;
   email: string;

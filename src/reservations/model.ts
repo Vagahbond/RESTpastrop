@@ -59,7 +59,7 @@ export const updateReservationSchema = Joi.object({
 }).min(1);
 
 export interface Reservation {
-  id?: Number;
+  id: Number;
   created_at?: Date;
   location: Number;
   customer: Number;
