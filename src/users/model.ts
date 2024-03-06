@@ -48,7 +48,7 @@ import Joi from "joi";
 
 export const createUserSchema = Joi.object({
   role: Joi.string()
-    .valid(["admin", "customer", "owner", "staff"])
+    .valid("admin", "customer", "owner", "staff")
     .default("customer"),
   email: Joi.string().email().required(),
   password: Joi.string().required(),
@@ -57,7 +57,7 @@ export const createUserSchema = Joi.object({
 });
 
 export const updateUserSchema = Joi.object({
-  role: Joi.string().valid(["admin", "customer", "owner", "staff"]).optional(),
+  role: Joi.string().valid("admin", "customer", "owner", "staff").optional(),
   email: Joi.string().email().optional(),
   password: Joi.string().optional(),
   first_name: Joi.string().optional(),
