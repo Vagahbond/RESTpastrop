@@ -5,6 +5,28 @@ import { InvalidArgumentError, AuthError } from "../service_errors";
 import { UnauthorizedError as JWTUnauthorizedError } from "express-jwt";
 import { UnauthorizedError } from "../service_errors";
 
+/**
+ * @openapi
+ * components:
+ *   schemas:
+ *     NotFoundError:
+ *       type: object
+ *       properties:
+ *         message:
+ *           type: string
+ *           description: A description of the error that occured
+ *       example:
+ *         message: "Entity was not found"
+ *     ValidationError:
+ *       type: object
+ *       properties:
+ *         message:
+ *           type: string
+ *           description: A description of the error that occured
+ *       example:
+ *         message: "Missing attribute \"price\""
+ *
+ */
 export default function errorHandlingMiddleware(
   err: Error,
   _req: Request,
