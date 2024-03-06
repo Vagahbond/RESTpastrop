@@ -46,6 +46,8 @@
 
 import Joi from "joi";
 
+export type UserRole = "admin" | "customer" | "owner" | "staff";
+
 export const createUserSchema = Joi.object({
   role: Joi.string()
     .valid("admin", "customer", "owner", "staff")
@@ -67,7 +69,7 @@ export const updateUserSchema = Joi.object({
 export interface User {
   id?: Number;
   created_at?: Date;
-  role: "admin" | "customer" | "owner" | "staff";
+  role: UserRole;
   email: string;
   password: string;
   first_name: string;
