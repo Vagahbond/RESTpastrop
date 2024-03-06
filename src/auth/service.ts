@@ -1,7 +1,12 @@
 import { User } from "../users/model";
-import { loginObject, loginSchema } from "./model";
-import userService from "../users/service";
-import { authError } from "../common/service_errors";
+import {
+  loginObject,
+  loginSchema,
+  registerObject,
+  registerSchema,
+} from "./model";
+import userRepository from "../users/repository";
+import { AuthError, InvalidArgumentError } from "../common/service_errors";
 
 async function login(loginForm: loginObject) {
   const { value, error } = loginSchema.validate(loginForm);
@@ -10,15 +15,27 @@ async function login(loginForm: loginObject) {
     throw error;
   }
 
-  if (!(await userService.getOne(userId))) {
-    throw new authError("Could not login: unkown email provided");
+  const user: User = await userRepository.getOneBy("email", value.email);
+
+  if (!user) {
+    throw new AuthError("Could not login: unkown email provided");
   }
+
+  // verify password
 }
 
-async function register(user: User): Promise<User> {
-  user.role = "customer";
+async function register(user: registerObject): Promise<User> {
+  const { value, error } = registerSchema.validate(user);
 
-  return await userService.createOne(user);
+  if (error) {
+    throw error;
+  }
+
+  if (await userRepository.getOneBy("email", value.email)) {
+    throw new InvalidArgumentError("This email is already taken.");
+  }
+
+  return await userRepository.createOne({ ...value, role: "customer" });
 }
 
 export default { login, register };
