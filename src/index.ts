@@ -18,7 +18,7 @@ app.get("/doc", swaggerUI.setup(specs, { explorer: true }));
 app.use(bodyParser.json());
 
 // Refuse non-numeric ids in params
-app.use("/*/:id", idParamGuard);
+app.use("/*/[1-9]+$", idParamGuard);
 
 /**
  * @openapi
