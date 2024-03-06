@@ -13,22 +13,22 @@ Tasks :
   - [x] Locations CRUD
   - [x] Error Handling
   - [x] Documentation
-- [ ] Validation
+- [x] Validation
   - [x] Locations Validation
-  - [ ] Users Validation
-  - [ ] Reservations Validation
-- [ ] Rights management
-  - [ ] Authorization
-  - [ ] Authentication
+  - [x] Users Validation
+  - [x] Reservations Validation
+- [x] Rights management
+  - [x] Authorization
+  - [x] Authentication
 - [ ] Documentation
   - [ ] Users
-    - [ ] Schema
+    - [x] Schema
     - [ ] Endpoints
   - [ ] Locations
     - [x] Schema
     - [ ] Endpoints
   - [ ] Reservations
-    - [ ] Schema
+    - [x] Schema
     - [ ] Endpoints
 - [ ] Buisness logic
   - [ ] Users
