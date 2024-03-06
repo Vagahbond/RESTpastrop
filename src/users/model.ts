@@ -64,11 +64,6 @@ export const updateUserSchema = Joi.object({
   last_name: Joi.string().optional(),
 }).min(1);
 
-export const loginSchema = Joi.object({
-  email: Joi.string().email().required(),
-  password: Joi.string().required(),
-});
-
 export interface User {
   id?: Number;
   created_at?: Date;
