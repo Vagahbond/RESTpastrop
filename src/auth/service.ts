@@ -7,6 +7,7 @@ import {
 } from "./model";
 import userRepository from "../users/repository";
 import { AuthError, InvalidArgumentError } from "../common/service_errors";
+import generateJWT from "../common/jwt_handler";
 
 async function login(loginForm: loginObject) {
   const { value, error } = loginSchema.validate(loginForm);
@@ -22,6 +23,8 @@ async function login(loginForm: loginObject) {
   }
 
   // verify password
+
+  return generateJWT(user.id, user.role);
 }
 
 async function register(user: registerObject): Promise<User> {

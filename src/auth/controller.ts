@@ -9,7 +9,7 @@ controller.post("/login", (req: Request, res: Response, next: NextFunction) => {
     .login(req.body)
     .then((token: string) => {
       res.send({
-        token,
+        token: token,
       });
     })
     .catch((err) => {

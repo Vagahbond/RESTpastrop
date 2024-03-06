@@ -1,7 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import { HTTPError } from "../http_errors";
 import { ValidationError } from "joi";
-import { InvalidArgumentError } from "../service_errors";
+import { InvalidArgumentError, AuthError } from "../service_errors";
+import { UnauthorizedError } from "express-jwt";
 
 export default function errorHandlingMiddleware(
   err: Error,
@@ -23,6 +24,18 @@ export default function errorHandlingMiddleware(
     });
   } else if (err instanceof InvalidArgumentError) {
     res.status(400).json({
+      message: err.message,
+    });
+  } else if (err instanceof SyntaxError) {
+    res.status(400).json({
+      message: err.message,
+    });
+  } else if (err instanceof AuthError) {
+    res.status(401).json({
+      message: err.message,
+    });
+  } else if (err instanceof UnauthorizedError) {
+    res.status(403).json({
       message: err.message,
     });
   } else {

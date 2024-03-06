@@ -4,7 +4,7 @@ export class InvalidArgumentError extends Error {
   }
 }
 
-export class authError extends Error {
+export class AuthError extends Error {
   constructor(message: string) {
     super(message ?? "An error prevented you from authenticating.");
   }
