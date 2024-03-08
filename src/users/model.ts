@@ -115,9 +115,9 @@ export interface User {
 }
 
 export interface PartialUser {
-  role: string;
-  email: string;
-  password: string;
-  first_name: string;
-  last_name: string;
+  role?: string;
+  email?: string;
+  password?: string;
+  first_name?: string;
+  last_name?: string;
 }

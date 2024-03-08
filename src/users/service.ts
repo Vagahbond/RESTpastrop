@@ -72,8 +72,13 @@ async function updateOne(
   if (await Repository.getOneBy("email", value.email)) {
     throw new InvalidArgumentError("This email is already taken.");
   }
+  const newUser = await Repository.updateOne(id, value);
 
-  return await Repository.updateOne(id, value);
+  if (newUser) {
+    return { ...newUser, password: "[redacted]" };
+  }
+
+  return newUser;
 }
 
 async function deleteOne(id: Number, issuer: Issuer): Promise<Number | null> {

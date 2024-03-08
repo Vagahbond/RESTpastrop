@@ -116,7 +116,7 @@ controller.get(
  */
 controller.post(
   "/",
-  authorize([]),
+  authorize(["staff"]),
   (req: Request, res: Response, next: Function) => {
     Service.createOne(req.body as User)
       .then((data: User) => {
