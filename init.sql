@@ -31,7 +31,7 @@ INSERT INTO users(
 CREATE TABLE locations (
     id serial PRIMARY KEY,
     created_at timestamp DEFAULT NOW(),
-    owner serial references users(id),
+    owner serial REFERENCES users(id) ON DELETE CASCADE,
     
     area int,
     address text,
@@ -44,12 +44,12 @@ CREATE TABLE reservations (
     id serial PRIMARY KEY,
     created_at timestamp DEFAULT NOW(),
 
-    location serial references locations(id),
-    customer serial references users(id),
+    location serial REFERENCES locations(id) ON DELETE CASCADE,
+    customer serial REFERENCES users(id) ON DELETE CASCADE,
 
 
-    date_start timestamp, 
-    date_end timestamp,
+    date_start date, 
+    date_end date,
     price money
 
 );
