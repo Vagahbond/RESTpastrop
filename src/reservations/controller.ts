@@ -1,8 +1,9 @@
-import { Router, Response, Request } from "express";
+import { Router, Response } from "express";
 import Service from "./service";
 import { Reservation, PartialReservation } from "./model";
 import { NotFoundError } from "../common/http_errors";
 import authorize from "../common/middlewares/authorize_middleware";
+import { Request } from "express-jwt";
 
 const controller = Router();
 
@@ -35,7 +36,12 @@ controller.get(
 );
 
 controller.post("/", (req: Request, res: Response, next: Function) => {
-  Service.createOne(req.body as Reservation)
+  Service.createOne({
+    ...req.body,
+    customer: req.auth?.uid,
+    date_start: new Date(req.body.date_start),
+    date_end: new Date(req.body.date_end),
+  } as Reservation)
     .then((data: Reservation) => {
       res.status(201).json(data);
     })

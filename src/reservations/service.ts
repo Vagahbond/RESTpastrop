@@ -24,12 +24,23 @@ async function createOne(reservation: Reservation): Promise<Reservation> {
     );
   }
 
-  if (!location.available) {
+  if (!value.location) {
     throw new InvalidArgumentError(
       "The location you're looking to reserve is not available for now.",
     );
   }
 
+  const overlapping = await Repository.getOverlappingReservations(
+    value.date_start,
+    value.date_end,
+    value.location,
+  );
+
+  if (overlapping.length) {
+    throw new InvalidArgumentError(
+      "This interval is not available. Please try another.",
+    );
+  }
   return await Repository.createOne(value);
 }
 
@@ -46,8 +57,21 @@ async function updateOne(
   reservation: PartialReservation,
 ): Promise<Reservation | null> {
   const { value, error } = updateReservationSchema.validate(reservation);
+
   if (error) {
     throw error;
+  }
+
+  const overlapping = await Repository.getOverlappingReservations(
+    value.date_start,
+    value.date_end,
+    value.location,
+  );
+
+  if (overlapping.length) {
+    throw new InvalidArgumentError(
+      "This interval is not available. Please try another.",
+    );
   }
 
   return await Repository.updateOne(id, value);

@@ -1,6 +1,7 @@
 import { Reservation, PartialReservation } from "./model";
 
 import db from "../common/db_handler";
+import { jsDateToPostgres } from "../common/utils";
 
 async function createOne(location: Location) {
   const attributesString = Object.keys(location).join(",");
@@ -55,4 +56,33 @@ async function deleteOne(id: Number): Promise<Number | null> {
   );
 }
 
-export default { createOne, getOne, getAll, updateOne, deleteOne };
+async function getOverlappingReservations(
+  start: Date,
+  end: Date,
+  appartId?: Number,
+) {
+  return await db.manyOrNone(
+    `SELECT * FROM reservations WHERE  
+    ($<start>::DATE = date_start::DATE OR
+          (date_start::date < $<start>::date AND date_end::date > $<start>::date) OR
+          ($<start>::date < date_start::date AND $<end>::date > date_start::date)
+    ) 
+    ${appartId && false ? " AND location = $<appartId> " : ""};
+
+    `,
+    {
+      start: start,
+      end: end,
+      appartId,
+    },
+  );
+}
+
+export default {
+  createOne,
+  getOne,
+  getAll,
+  getOverlappingReservations,
+  updateOne,
+  deleteOne,
+};
