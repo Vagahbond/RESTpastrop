@@ -70,7 +70,11 @@ controller.patch(
   "/:id",
   authorize(["staff", "owner", "customer"]),
   (req: Request, res: Response, next: Function) => {
-    Service.updateOne(Number(req.params.id), req.body as PartialReservation)
+    Service.updateOne(Number(req.params.id), {
+      ...req.body,
+      date_start: new Date(req.body.date_start),
+      date_end: new Date(req.body.date_end),
+    } as PartialReservation)
       .then((data: Reservation | null) => {
         if (data === null) {
           throw new NotFoundError(
