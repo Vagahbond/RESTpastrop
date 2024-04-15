@@ -1,7 +1,6 @@
 import { Reservation, PartialReservation } from "./model";
 
 import db from "../common/db_handler";
-import { jsDateToPostgres } from "../common/utils";
 
 async function createOne(location: Location) {
   const attributesString = Object.keys(location).join(",");
